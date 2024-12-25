@@ -4,11 +4,14 @@ dev:
 build:
 	npm run build
 
+preview:
+	npm run preview
+
 install:
 	npm ci
 
 lint:
-	npx eslint .
+	npx eslint --ext js,jsx --no-eslintrc --config .eslintrc.yml .
 
 start:
-	npx start-server -s ./dist
+	npm start
