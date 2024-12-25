@@ -27,13 +27,13 @@
     "sass": "^1.52.1",
     "socket.io": "^4.5.1",
     "socket.io-client": "^4.5.1",
-    "vite": "^5.4.8",
+    "vite": "^5.4.10",
     "yup": "^0.32.11"
   },
   "scripts": {
     "dev": "vite",
     "start": "npx start-server -s ./dist",
-    "build": "npx vite build",
+    "build": "vite build",
     "serve": "vite preview"
   },
   "eslintConfig": {
