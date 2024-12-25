@@ -33,7 +33,7 @@
   "scripts": {
     "dev": "vite",
     "start": "npx start-server -s ./dist",
-    "build": "vite build",
+    "build": "npx vite build",
     "serve": "vite preview"
   },
   "eslintConfig": {
