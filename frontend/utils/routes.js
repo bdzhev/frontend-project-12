@@ -4,7 +4,7 @@ export const apiPaths = {
   login: () => `${BASE_API_PATH}/login`,
 };
 
-export const linkRoutes = {
+export const routes = {
   main: '/',
   login: '/login',
   signup: '/signup',
