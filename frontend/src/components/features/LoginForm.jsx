@@ -22,7 +22,6 @@ const LoginForm = ({ navigateToPrevPage, authUser }) => {
         navigateToPrevPage();
 
       } catch(err) {
-        console.log(err)
         setFormState({ authStatus: 'failed', errors: 'Login or password incorrect'})
         resetForm();
       }
@@ -50,7 +49,7 @@ const LoginForm = ({ navigateToPrevPage, authUser }) => {
         />
         <Form.Control.Feedback type="invalid">{formState.errors}</Form.Control.Feedback>
       </Form.Group>
-      <Button type="submit">Login</Button>
+      <Button className="mt-3" type="submit">Login</Button>
     </Form>
   )
 };

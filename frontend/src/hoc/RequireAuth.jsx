@@ -1,15 +1,13 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { routes } from "../../utils/routes";
-import { useSelector } from "react-redux";
+import checkAuthentication from "../../utils/isAuth";
 
 const RequireAuth = ({ children }) => {
   const location = useLocation();
-  // const auth = useAuth();
-  // const { user } = auth;
-  const user = useSelector((state) => state.auth.user);
+  const isAuth = checkAuthentication();
 
   //if not authed readdress to login and pass current location as origin
-  if (!user) {
+  if (!isAuth) {
     return <Navigate to={routes.login} state={{from: location}}/>;
   }
 

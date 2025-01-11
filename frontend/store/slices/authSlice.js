@@ -8,8 +8,12 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
+    resetCredentials: (state) => {
+      state.user = null;
+      state.token = null;
+    },
   },
 });
 
-export const { setCredentials } = authSlice.actions;
+export const { setCredentials, resetCredentials } = authSlice.actions;
 export default authSlice.reducer;

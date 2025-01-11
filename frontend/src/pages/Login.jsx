@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card } from "react-bootstrap"
+import { Container, Row, Col, Card, Image } from "react-bootstrap"
 import { useLocation, useNavigate } from "react-router-dom";
 import { apiPaths } from "../../utils/routes";
 import { useDispatch } from "react-redux";
@@ -14,16 +14,11 @@ const Login = () => {
   const fromPage = location.state?.from?.pathname || '/';
 
   const navigateToPrevPage = () => navigate(fromPage, {replace: true});
-
-
   const authUser = async (userFromInput, password) => {
     const response = await axios.post(apiPaths.login(), { username: userFromInput, password });
     const { username, token } = response.data;
     dispatch(setCredentials({ user: username, token }));
-    //await dispatch(setCredentials({ user: userFromInput, token: null }));
   };
-
-
 
   return (
     <Container fluid className="h-100">
@@ -33,7 +28,7 @@ const Login = () => {
             <Card.Body>
               <Row className="p-5">
                 <Col xs="12" md="6">
-                  <h1>Login page</h1>
+                  <Image src="/login_image.jpg" fluid></Image>
                 </Col>
                 <Col xs="12" md="6">
                   <Row>
