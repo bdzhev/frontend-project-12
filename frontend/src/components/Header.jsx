@@ -11,7 +11,9 @@ const Header = () => {
     <Navbar>
       <Container>
         <Navbar.Brand href="/">Chat</Navbar.Brand>
-        { isAuth ? <Button variant="secondary" className="mr-4" onClick={signOut}>Sign out</Button> : null }
+        { isAuth
+          ? <Button variant="secondary" className="mr-4" onClick={signOut}>Sign out</Button>
+          : null }
       </Container>
     </Navbar>
   )
