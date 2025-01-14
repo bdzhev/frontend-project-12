@@ -4,9 +4,7 @@ import Chat from "./pages/chat.jsx";
 import Login from "./pages/login.jsx";
 import NotFound from "./pages/notFound.jsx";
 import Header from "./components/Header.jsx";
-
 import { RequireAuth } from "./hoc/RequireAuth.jsx";
-
 
 const App = () => {
   return (
@@ -24,8 +22,7 @@ const App = () => {
         </Routes>
       </Router>
     </div>
-  )
+  );
 };
-
 
 export default App;
