@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { useSelector } from 'react-redux';
 
 export const channelsApi = createApi({
   reducerPath: 'channelsApi',
@@ -16,9 +15,7 @@ export const channelsApi = createApi({
   }),
   endpoints: (builder) => ({
     getChannels: builder.query({
-      query: () => ({
-        responseHandler: (response) => response.text(),
-      }),
+      query: () => '',
     }),
     addChannel: builder.query({
       query: (channelName) =>({
