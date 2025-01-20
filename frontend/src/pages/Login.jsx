@@ -1,25 +1,8 @@
 import { Container, Row, Col, Card, Image } from "react-bootstrap"
-import { useLocation, useNavigate } from "react-router-dom";
-import { apiPaths } from "../../utils/routes";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import { setCredentials } from "../../store/slices/authSlice";
 import LoginForm from "../components/features/LoginForm";
 
 
 const Login = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const fromPage = location.state?.from?.pathname || '/';
-
-  const navigateToPrevPage = () => navigate(fromPage, {replace: true});
-  const authUser = async (userFromInput, password) => {
-    const response = await axios.post(apiPaths.login(), { username: userFromInput, password });
-    const { username, token } = response.data;
-    dispatch(setCredentials({ user: username, token }));
-  };
-
   return (
     <Container fluid className="h-100">
       <Row className="justify-content-center align-content-center h-100">
@@ -35,7 +18,7 @@ const Login = () => {
                     <h1 className="text-center">Войти</h1>
                   </Row>
                   <Row className="justify-content-center align-content-center h-100">
-                    <LoginForm navigateToPrevPage={navigateToPrevPage} authUser={authUser}/>
+                    <LoginForm/>
                   </Row>
                 </Col>
               </Row>

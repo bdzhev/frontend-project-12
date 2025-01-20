@@ -2,9 +2,28 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import { Form, Button } from "react-bootstrap";
 import * as Yup from "yup";
+import { useLocation, useNavigate } from "react-router-dom";
+import { apiPaths } from "../../../utils/routes";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { setCredentials } from "../../../store/slices/authSlice";
 
-const LoginForm = ({ navigateToPrevPage, authUser }) => {
+const LoginForm = () => {
+  const dispatch = useDispatch();
+  const authUser = async ({ username, password }) => {
+    const response = await axios.post(apiPaths.login(), { username, password });
+    const { token } = response.data;
+    localStorage.setItem('authData', JSON.stringify({ user: username, token }));
+    dispatch(setCredentials({ user: username, token }));
+  };
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fromPage = location.state?.from?.pathname || '/';
+  const navigateToPrevPage = () => navigate(fromPage, {replace: true});
+
   const [formState, setFormState] = useState({ authStatus: 'idle', errors: null }); // idle, failed
+
   const formik = useFormik({
     initialValues: { username: '', password: ''},
     validationSchema: Yup.object({
@@ -17,8 +36,7 @@ const LoginForm = ({ navigateToPrevPage, authUser }) => {
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        const { username, password } = values;
-        await authUser(username, password);
+        await authUser(values);
         navigateToPrevPage();
 
       } catch(err) {

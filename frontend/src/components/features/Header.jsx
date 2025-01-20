@@ -1,12 +1,15 @@
 import { Navbar, Container, Button } from "react-bootstrap";
-import { resetCredentials } from "../../store/slices/authSlice";
+import { resetCredentials } from "../../../store/slices/authSlice";
 import { useDispatch } from "react-redux";
-import checkAuthentication from "../../utils/isAuth";
+import checkAuthentication from "../../../utils/isAuth";
 
 const Header = () => {
   const isAuth = checkAuthentication();
   const dispatch = useDispatch();
-  const signOut = () => dispatch(resetCredentials());
+  const signOut = () => {
+    localStorage.removeItem('authData');
+    dispatch(resetCredentials())
+  };
   return (
     <Navbar>
       <Container>
