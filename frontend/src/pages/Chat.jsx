@@ -1,23 +1,20 @@
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import channelModals from '../components/modals';
-import { openModal } from '../../store/slices/modalSlice';
-import Channels from '../components/Channels';
+import { Container, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import modals from "../components/modals"
+import ChannelsList from '../components/chat/ChannelsList';
 
 const Chat = () => {
-  const type = useSelector((state) => state.modal.type);
-  const dispatch = useDispatch();
-  const handleModal = () => dispatch(openModal({ type: 'add', channel: 'first' }));
+  const modalType = useSelector((state) => state.modal.type);
   return (
   <Container fluid className="h-100 my-4">
-  <Row className="flex-md-row h-100 bg-white">
+  <Row className="flex-md-row h-100 bg-white justify-content-center align-content-center">
     <Col className='col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex'>
-      <Channels/>
+      <ChannelsList />
     </Col>
-    <Col className='p-0 h-100'>
-      <Button onClick={handleModal}>Open Add Modal</Button>
+    <Col>
+
     </Col>
-    { !!type ? channelModals[type]() : null }
+    { !!modalType ? modals[modalType]() : null }
   </Row>
   </Container>
   )

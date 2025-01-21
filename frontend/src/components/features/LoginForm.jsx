@@ -61,7 +61,7 @@ const LoginForm = () => {
         <Form.Label htmlFor="password">Password</Form.Label>
         <Form.Control
           id="password"
-          type="text"
+          type="password"
           isInvalid={formState.authStatus === 'failed'}
           {...formik.getFieldProps('password')}
         />

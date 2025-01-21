@@ -1,23 +1,52 @@
-import { Modal } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { closeModal } from '../../../store/slices/modalSlice';
+import { Modal, Form, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
+import { useEditChannelMutation } from "../../../store/services/chatApi";
+import * as Yup from 'yup';
+import { useRef, useEffect } from "react";
 
-const ModalChannelEdit = () => {
-  // to do - in headers name = use the passed modals type to access the translation
-  const { type, channel } = useSelector((state) => state.modal);
+const ModalChannelEdit = ({ closeModal }) => {
+  const inputRef = useRef(null);
   const dispatch = useDispatch();
-  const onHide = () => dispatch(closeModal());
+  const handleCloseModal = () => dispatch(closeModal());
+  const channel = useSelector((state) => state.modal.channel);
+  const [editChannel] = useEditChannelMutation();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [dispatch])
+
   const formik = useFormik({
-    initialValues: { channelName: ''}
-  })
+    initialValues: { newChannelName: channel.name},
+    validationSchema: Yup.object({
+      newChannelName: Yup.string()
+      .required('Required'),
+    }),
+    onSubmit: (values) => {
+      editChannel({ id: channel.id, name: values.newChannelName });
+      handleCloseModal();
+    },
+  });
+
   return (
-    <Modal show={type === 'add'} onHide={onHide}>
-      <Modal.Header>
-        {'Редактировать/ Добавить канал'}
+    <Modal show={true} onHide={handleCloseModal} centered>
+      <Modal.Header closeButton>
+        {'Переименовать канал'}
       </Modal.Header>
       <Modal.Body>
-
+      <Form onSubmit={formik.handleSubmit}>
+          <Form.Group>
+            <Form.Label htmlFor="channelName">Выберите новое название для канала</Form.Label>
+            <Form.Control
+              id="newChannelName"
+              type="text"
+              ref={inputRef}
+              {...formik.getFieldProps('newChannelName')}
+            />
+          </Form.Group>
+          <Button className="mt-3" variant="secondary" onClick={handleCloseModal}>Cancel</Button>
+          <Button className="mt-3" type="submit">Submit</Button>
+        </Form>
       </Modal.Body>
     </Modal>
   )

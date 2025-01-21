@@ -1,23 +1,27 @@
-import { Modal } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { closeModal } from '../../../store/slices/modalSlice';
-import { useFormik } from "formik";
+import { Modal, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useRemoveChannelMutation } from "../../../store/services/chatApi";
 
-const ModalChannelRemove = () => {
-  // to do - in headers name = use the passed modals type to access the translation
-  const { type, channel } = useSelector((state) => state.modal);
+
+const ModalChannelRemove = ({ closeModal }) => {
   const dispatch = useDispatch();
-  const onHide = () => dispatch(closeModal());
-  const formik = useFormik({
-    initialValues: { channelName: ''}
-  })
+  const handleCloseModal = () => dispatch(closeModal());
+
+  const channelId = useSelector((state) => state.modal.channel.id);
+  const [removeChannel] = useRemoveChannelMutation();
+  const handleRemoveChannel = () => {
+    removeChannel(channelId);
+    handleCloseModal();
+  };
+
   return (
-    <Modal show={type === 'add'} onHide={onHide}>
-      <Modal.Header>
-        {'Редактировать/ Добавить канал'}
+    <Modal show={true} onHide={handleCloseModal}>
+      <Modal.Header closeButton>
+        {'Удалить канал'}
       </Modal.Header>
       <Modal.Body>
-
+        <Button className="mt-3" onClick={handleCloseModal}>Cancel</Button>
+        <Button className="mt-3" onClick={handleRemoveChannel}>Submit</Button>
       </Modal.Body>
     </Modal>
   )
