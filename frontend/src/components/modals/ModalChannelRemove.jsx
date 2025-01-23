@@ -1,7 +1,8 @@
 import { Modal, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useRemoveChannelMutation } from "../../../store/services/chatApi";
-
+import { setCurChannel } from '../../../store/slices/activeChannelSlice';
+import { defaultChannel } from "../../../utils/defaultChannel";
 
 const ModalChannelRemove = ({ closeModal }) => {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ const ModalChannelRemove = ({ closeModal }) => {
   const channelId = useSelector((state) => state.modal.channel.id);
   const [removeChannel] = useRemoveChannelMutation();
   const handleRemoveChannel = () => {
+    dispatch(setCurChannel(defaultChannel));
     removeChannel(channelId);
     handleCloseModal();
   };

@@ -1,7 +1,9 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { activeChannelSelector } from "../../../store/slices/activeChannelSlice";
 import { useFormik } from "formik";
 import { useEditChannelMutation } from "../../../store/services/chatApi";
+import { setCurChannel } from '../../../store/slices/activeChannelSlice';
 import * as Yup from 'yup';
 import { useRef, useEffect } from "react";
 
@@ -10,6 +12,7 @@ const ModalChannelEdit = ({ closeModal }) => {
   const dispatch = useDispatch();
   const handleCloseModal = () => dispatch(closeModal());
   const channel = useSelector((state) => state.modal.channel);
+  const activeChannel = useSelector(activeChannelSelector);
   const [editChannel] = useEditChannelMutation();
 
   useEffect(() => {
@@ -24,6 +27,9 @@ const ModalChannelEdit = ({ closeModal }) => {
     }),
     onSubmit: (values) => {
       editChannel({ id: channel.id, name: values.newChannelName });
+      if (activeChannel.id === channel.id) {
+        dispatch(setCurChannel({ ...channel, name: values.newChannelName }));
+      }
       handleCloseModal();
     },
   });
