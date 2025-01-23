@@ -4,6 +4,7 @@ import Chat from "./pages/Chat.jsx";
 import Login from "./pages/Login.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Header from "./components/features/Header.jsx";
+import SignUp from "./pages/SignUp.jsx";
 import { RequireAuth } from "./hoc/RequireAuth.jsx";
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
             }
           />
           <Route path={routes.login} element={<Login />} />
+          <Route path={routes.signup} element={<SignUp />}/>
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>

@@ -1,7 +1,7 @@
-import { Container, Row, Col, Card, Image } from "react-bootstrap"
-import LoginForm from "../components/features/LoginForm";
+import { Container, Row, Col, Card, Image } from "react-bootstrap";
+import SignUpForm from "../components/features/SignUpForm";
 
-const Login = () => {
+const SignUp = () => {
   return (
     <Container fluid className="h-100">
       <Row className="justify-content-center align-content-center h-100">
@@ -14,20 +14,14 @@ const Login = () => {
                 </Col>
                 <Col xs="12" md="6">
                   <Row>
-                    <h1 className="text-center">Войти</h1>
+                    <h1 className="text-center">Регистрация</h1>
                   </Row>
                   <Row className="justify-content-center align-content-center h-100">
-                    <LoginForm/>
+                    <SignUpForm />
                   </Row>
                 </Col>
               </Row>
             </Card.Body>
-            <Card.Footer className="p-4">
-              <div className="text-center">
-                <span>Нет аккаунта? </span>
-                <a href="/signup">Регистрация</a>
-              </div>
-            </Card.Footer>
           </Card>
         </Col>
       </Row>
@@ -35,4 +29,4 @@ const Login = () => {
   )
 };
 
-export default Login;
+export default SignUp;
