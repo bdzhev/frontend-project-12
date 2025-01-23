@@ -1,9 +1,11 @@
 const MessageContainerHeader = ({ activeChannelName, numOfMessages }) => {
   return (
-    <>
-    <p>{activeChannelName}</p>
-    <p>{`num of messages: ${numOfMessages}`}</p>
-    </>
+    <div className="bg-light small mb-4 p-3">
+      <p className="m-0">
+        <b>{`#${activeChannelName}`}</b>
+      </p>
+      <span className="text-muted">{`num of messages: ${numOfMessages}`}</span>
+    </div>
   );
 };
 

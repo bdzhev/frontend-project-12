@@ -11,7 +11,7 @@ const Header = () => {
     dispatch(resetCredentials())
   };
   return (
-    <Navbar>
+    <Navbar className="bg-white shadow-sm">
       <Container>
         <Navbar.Brand href="/">Chat</Navbar.Brand>
         { isAuth

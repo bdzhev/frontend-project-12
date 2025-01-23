@@ -12,7 +12,7 @@ const ChatContainer = () => {
       <Col className='col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex'>
         <ChannelsList />
       </Col>
-      <Col className='d-flex flex-column h-100'>
+      <Col className='p-0 h-100'>
         <MessageContainer />
       </Col>
       { !!modalType ? modals[modalType]() : null }

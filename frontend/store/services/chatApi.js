@@ -93,7 +93,7 @@ export const chatApi = createApi({
     }),
     addMessage: builder.mutation({
       query: (newMessage) => ({
-        url: 'message',
+        url: 'messages',
         method: 'POST',
         body: newMessage,
       }),

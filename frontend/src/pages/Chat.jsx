@@ -3,7 +3,7 @@ import ChatContainer from '../components/chat/ChatContainer';
 
 const Chat = () => {
   return (
-  <Container fluid className="h-100 my-4">
+  <Container className="h-100 my-4 rounded shadow overflow-hidden">
     <ChatContainer />
   </Container>
   )

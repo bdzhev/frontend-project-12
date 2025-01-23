@@ -18,7 +18,7 @@ const ModalChannelAdd = ({ closeModal }) => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, [dispatch])
+  }, [])
 
   const formik = useFormik({
     initialValues: { channelName: ''},
