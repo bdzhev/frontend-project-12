@@ -7,7 +7,6 @@ const renderMessage = ({ body, id, username }) => (
 
 
 const MessageBox = ({ messages }) => {
-  console.log(messages);
   return (
     <div className="overflow-auto px-5">
       {messages.length > 0
