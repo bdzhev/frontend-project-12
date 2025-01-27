@@ -1,6 +1,9 @@
+import { useTranslation } from 'react-i18next';
+
 const NotFound = () => {
+  const { t } = useTranslation();
   return (
-    <h1>i cannot find page</h1>
+    <h1>{t('notFoundPage.notFoundMessage')}</h1>
   );
 };
 

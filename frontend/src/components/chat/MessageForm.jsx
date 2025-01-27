@@ -1,19 +1,22 @@
-import { useFormik } from "formik";
-import { useAddMessageMutation } from "../../../store/services/chatApi";
-import * as Yup from "yup";
-import { Form, Button, Image } from "react-bootstrap";
+/* eslint-disable react/jsx-props-no-spreading */
+import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { Form, Button, Image } from 'react-bootstrap';
+import { useAddMessageMutation } from '../../../store/services/chatApi';
 
 const MessageForm = ({ channelId, username }) => {
-  const [ sendMessage ] = useAddMessageMutation();
+  const { t } = useTranslation();
+  const [sendMessage] = useAddMessageMutation();
   const formik = useFormik({
     initialValues: { body: '' },
     validationSchema: Yup.object({
-      body: Yup.string().required('Заполните поле'),
+      body: Yup.string().required(),
     }),
     onSubmit: ({ body }, { resetForm }) => {
       sendMessage({ body, channelId, username });
       resetForm();
-    }
+    },
   });
 
   return (
@@ -24,7 +27,7 @@ const MessageForm = ({ channelId, username }) => {
             id="body"
             type="text"
             {...formik.getFieldProps('body')}
-            placeholder="Введите сообщение..."
+            placeholder={t('chatPage.messageForm.placeholder')}
             className="rounded"
           />
           <Button

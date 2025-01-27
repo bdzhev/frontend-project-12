@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-const checkAuthentication = () => {
+const useCheckAuthentication = () => {
   const user = useSelector((state) => state.auth.user);
   return !!user;
 };
 
-export default checkAuthentication;
+export default useCheckAuthentication;

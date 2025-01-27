@@ -10,7 +10,7 @@ export const chatApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1',
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const { token } = getState().auth;
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -22,28 +22,28 @@ export const chatApi = createApi({
       query: () => 'channels',
       onCacheEntryAdded: async (
         arg,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
       ) => {
         addSocketListener(
           socket,
           'newChannel',
           updateCachedData,
           cacheDataLoaded,
-          cacheEntryRemoved
+          cacheEntryRemoved,
         );
         addSocketListener(
           socket,
           'removeChannel',
           updateCachedData,
           cacheDataLoaded,
-          cacheEntryRemoved
+          cacheEntryRemoved,
         );
         addSocketListener(
           socket,
           'renameChannel',
           updateCachedData,
           cacheDataLoaded,
-          cacheEntryRemoved
+          cacheEntryRemoved,
         );
       },
       providesTags: ['Channel'],
@@ -98,8 +98,8 @@ export const chatApi = createApi({
         body: newMessage,
       }),
       invalidatesTags: ['Message'],
-    })
-  })
+    }),
+  }),
 });
 
 export const {

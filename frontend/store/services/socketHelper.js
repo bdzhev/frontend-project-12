@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-case-declarations */
 const addSocketListener = async (
   socket,
   eventType,
@@ -9,7 +11,7 @@ const addSocketListener = async (
     await cacheDataLoaded;
     const handleEvent = (payload) => {
       updateCachedData((draft) => {
-        switch(eventType) {
+        switch (eventType) {
           case 'newChannel':
           case 'newMessage':
             draft.push(payload);
@@ -21,14 +23,14 @@ const addSocketListener = async (
             }
             break;
           case 'removeChannel':
-            return draft.filter((c) => c.id !== payload.id)
+            return draft.filter((c) => c.id !== payload.id);
           default:
             break;
         }
       });
     };
     socket.on(eventType, handleEvent);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
   await cacheEntryRemoved;

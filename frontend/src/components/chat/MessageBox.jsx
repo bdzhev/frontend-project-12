@@ -5,15 +5,11 @@ const renderMessage = ({ body, id, username }) => (
   </div>
 );
 
-
-const MessageBox = ({ messages }) => {
-  return (
-    <div className="overflow-auto px-5">
-      {messages.length > 0
-          ? messages.map(renderMessage) : null
-      }
-    </div>
-  )
-};
+const MessageBox = ({ messages }) => (
+  <div className="overflow-auto px-5">
+    {messages.length > 0
+      ? messages.map(renderMessage) : null}
+  </div>
+);
 
 export default MessageBox;
