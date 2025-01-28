@@ -40,6 +40,7 @@ const ChannelItem = ({
               variant={variant}
               onClick={setChannelActive}
               name={name}
+              role="button"
             >
               {`# ${filter.clean(name)}`}
             </Button>
@@ -56,6 +57,7 @@ const ChannelItem = ({
             variant={variant}
             onClick={setChannelActive}
             name={name}
+            role="button"
           >
             {`# ${filter.clean(name)}`}
           </Button>
