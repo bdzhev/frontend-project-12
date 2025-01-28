@@ -91,7 +91,7 @@ const SignUpForm = () => {
         </Form.Control.Feedback>
       </FloatingLabel>
       <FloatingLabel
-        controlId="password"
+        controlId="passwordCopy"
         label={t('signupForm.labels.repeatPassword')}
         className="mb-3"
       >
