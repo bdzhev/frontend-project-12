@@ -62,7 +62,7 @@ const ru = {
         channelsReqError: 'Не удалось загрузить каналы',
       },
       channelItem: {
-        dropdown: 'Управление каналом',
+        dropdown: '"Управление каналом"',
         removeButton: 'Удалить',
         editButton: 'Переименовать',
       },
