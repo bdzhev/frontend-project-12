@@ -22,18 +22,12 @@ const init = async () => {
 
   const rollbarConfig = {
     accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
-    environment: 'testenv',
+    environment: 'production',
   };
-
-  function TestError() {
-    const a = null;
-    return a.hello();
-  }
 
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
-        <TestError />
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
             <App />
