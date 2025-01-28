@@ -26,7 +26,7 @@ const ru = {
       errors: {
         matchingPasswords: 'Пароли должны совпадать',
         shortPassword: 'Не менее 6 символов',
-        userExists: 'Пользователь с таким логином уже существует',
+        userExists: 'Такой пользователь уже существует',
         unknown: 'Неизвестная ошибка, пожалуйста попробуйте позже',
       },
       labels: {
@@ -46,7 +46,7 @@ const ru = {
         header: 'Каналы',
       },
       messageForm: {
-        placeholder: 'Введите сообщение...',
+        placeholder: 'Новое сообщение',
       },
       messageBox: {
         numOfMessages: {

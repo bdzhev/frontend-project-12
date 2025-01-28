@@ -18,7 +18,7 @@ const Login = () => {
             <Card.Body>
               <Row className="p-5">
                 <Col xs="12" md="6">
-                  <Image src="/login_image.jpg" fluid />
+                  <Image src="/loginimage.jpg" fluid />
                 </Col>
                 <Col xs="12" md="6">
                   <Row>
