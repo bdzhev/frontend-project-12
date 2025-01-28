@@ -25,7 +25,7 @@ const LoginForm = () => {
   const fromPage = location.state?.from?.pathname || '/';
   const navigateToPrevPage = () => navigate(fromPage, { replace: true });
 
-  const [formState, setFormState] = useState({ authStatus: 'idle', errors: null }); // idle, failed
+  const [formState, setFormState] = useState({ authStatus: 'idle', errors: null });
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },

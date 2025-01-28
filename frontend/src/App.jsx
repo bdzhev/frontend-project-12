@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { routes } from '../utils/routes.js';
 import Chat from './pages/Chat.jsx';
 import Login from './pages/Login.jsx';
@@ -12,7 +13,7 @@ const App = () => (
   <div className="d-flex flex-column h-100">
     <ToastContainer
       position="top-right"
-      autoClose={5000}
+      autoClose={3000}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick

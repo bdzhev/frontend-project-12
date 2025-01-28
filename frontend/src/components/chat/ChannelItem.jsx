@@ -7,6 +7,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import filter from 'leo-profanity';
 import { openModal } from '../../../store/slices/modalSlice';
 import { setCurChannel } from '../../../store/slices/activeChannelSlice';
 
@@ -39,7 +40,7 @@ const ChannelItem = ({
               variant={variant}
               onClick={setChannelActive}
             >
-              {`# ${name}`}
+              {`# ${filter.clean(name)}`}
             </Button>
             <DropdownButton variant={variant} onSelect={handleOpenModal({ id, name })}>
               <Dropdown.Item eventKey="remove">{t('chatPage.channelItem.removeButton')}</Dropdown.Item>
@@ -53,7 +54,7 @@ const ChannelItem = ({
             variant={variant}
             onClick={setChannelActive}
           >
-            {`# ${name}`}
+            {`# ${filter.clean(name)}`}
           </Button>
         )}
     </Nav.Item>

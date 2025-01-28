@@ -1,7 +1,9 @@
+import filter from 'leo-profanity';
+
 const renderMessage = ({ body, id, username }) => (
   <div className="text-break mb-2" key={id}>
-    <b>{`${username}: `}</b>
-    { body }
+    <b>{`${filter.clean(username)}: `}</b>
+    { filter.clean(body) }
   </div>
 );
 

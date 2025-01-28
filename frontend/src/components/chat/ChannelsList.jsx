@@ -1,23 +1,25 @@
+import { useTranslation } from 'react-i18next';
 import { Row, Nav } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import ChannelsListHeader from './ChannelsListHeader';
 import ChannelItem from './ChannelItem';
 import { useGetChannelsQuery } from '../../../store/services/chatApi';
-import Loading from '../Loading';
 import { setCurChannel } from '../../../store/slices/activeChannelSlice';
 import defaultChannel from '../../../utils/defaultChannel';
+import ChannelsPlaceHolder from './placeholders/ChannelsPlaceHolder';
 
 const Channels = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { data: channels, error, isLoading } = useGetChannelsQuery();
   const activeChannel = useSelector((state) => state.activeChannel.active);
 
-  if (isLoading) {
-    return (<Loading />);
-  }
+  if (isLoading) return (<ChannelsPlaceHolder />);
 
   if (error) {
-    return (<h1>Error while trying to get data</h1>);
+    toast.warn(t('chatPage.errors.channelsReqError'));
+    return (<ChannelsPlaceHolder />);
   }
 
   const existingChannelsIds = channels.map((c) => c.id);

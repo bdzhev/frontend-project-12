@@ -7,17 +7,17 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast, ToastContainer, Slide } from 'react-toastify';
+import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 import { setCurChannel } from '../../../store/slices/activeChannelSlice';
 import { useGetChannelsQuery, useAddChannelMutation } from '../../../store/services/chatApi';
 
 const ModalChannelAdd = ({ closeModal }) => {
   const { t } = useTranslation();
-  // const toastRef = useRef(null);
   const inputRef = useRef(null);
   const dispatch = useDispatch();
   const handleCloseModal = () => dispatch(closeModal());
-  const [addChannel, { isLoading, error, isSuccess }] = useAddChannelMutation();
+  const [addChannel] = useAddChannelMutation();
   const { data: existingChannels } = useGetChannelsQuery();
   const existingChannelNames = existingChannels.map((c) => c.name);
   const [formState, setFormState] = useState({ state: 'idle' });
@@ -27,17 +27,22 @@ const ModalChannelAdd = ({ closeModal }) => {
   }, []);
 
   const handleAddChannel = async (channelName) => {
+    const toastId = toast(t('modals.addForm.loading'), { autoClose: false });
     try {
-      // toastRef.current = toast.info('Loading');
-      toast.info('Loading');
       setFormState('sending');
       const newChannel = await addChannel(channelName).unwrap();
       dispatch(setCurChannel(newChannel));
-      toast.success('success');
-      // toastRef.current = toast.update(toastRef.current, { type: 'success', autoClose: 5000 })
+      toast.update(toastId, {
+        render: t('modals.addForm.success'),
+        autoClose: 2000,
+        type: 'success',
+      });
     } catch (err) {
-      toast.warning('fail');
-      // toastRef.current = toast.update(toastRef.current, { type: 'error', autoClose: 5000 })
+      toast.update(toastId, {
+        render: t('modals.errors.network'),
+        autoClose: 2000,
+        type: 'warn',
+      });
     }
   };
 
@@ -48,7 +53,12 @@ const ModalChannelAdd = ({ closeModal }) => {
         .required(t('modals.errors.required'))
         .min(3, t('modals.errors.short'))
         .max(20, t('modals.errors.long'))
-        .notOneOf([existingChannelNames], t('modals.errors.alreadyExists')),
+        .notOneOf([existingChannelNames], t('modals.errors.alreadyExists'))
+        .test(
+          'no-profanity',
+          t('modals.errors.profanity'),
+          (value) => filter.check(value),
+        ),
     }),
     onSubmit: async ({ channelName }) => {
       handleAddChannel(channelName);
@@ -58,19 +68,6 @@ const ModalChannelAdd = ({ closeModal }) => {
 
   return (
     <Modal show onHide={handleCloseModal} centered>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        pauseOnHover
-        draggable
-        theme="light"
-        transition={Slide}
-      />
       <Modal.Header closeButton>
         {t('modals.addForm.headerLabel')}
       </Modal.Header>
