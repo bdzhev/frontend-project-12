@@ -67,7 +67,7 @@ const SignUpForm = () => {
           isInvalid={formState.signUpStatus === 'failed'
               || (formik.touched.username && formik.errors.username)}
           {...formik.getFieldProps('username')}
-          placeholder={t('loginForm.username')}
+          placeholder={t('signupForm.labels.username')}
         />
         <Form.Control.Feedback type="invalid">
           {formik.errors.username}

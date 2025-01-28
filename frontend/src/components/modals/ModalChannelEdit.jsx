@@ -39,7 +39,7 @@ const ModalChannelEdit = ({ closeModal }) => {
         .test(
           'no-profanity',
           t('modals.errors.profanity'),
-          (value) => filter.check(value),
+          (value) => !filter.check(value),
         ),
     }),
     onSubmit: async (values) => {
