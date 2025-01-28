@@ -39,10 +39,12 @@ const ChannelItem = ({
               className="w-100 text-start text-truncate"
               variant={variant}
               onClick={setChannelActive}
+              name={name}
             >
               {`# ${filter.clean(name)}`}
             </Button>
             <DropdownButton variant={variant} onSelect={handleOpenModal({ id, name })}>
+              <span className="visually-hidden">{t('chatPage.channelItem.dropdown')}</span>
               <Dropdown.Item eventKey="remove">{t('chatPage.channelItem.removeButton')}</Dropdown.Item>
               <Dropdown.Item eventKey="edit">{t('chatPage.channelItem.editButton')}</Dropdown.Item>
             </DropdownButton>
@@ -53,6 +55,7 @@ const ChannelItem = ({
             className="w-100 text-start"
             variant={variant}
             onClick={setChannelActive}
+            name={name}
           >
             {`# ${filter.clean(name)}`}
           </Button>
