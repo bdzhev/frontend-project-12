@@ -68,12 +68,8 @@ const ModalChannelEdit = ({ closeModal }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <FloatingLabel
-            controlId="channelName"
-            label={t('modals.editForm.label')}
-            className="mb-3"
-          >
-            <Form.Control
+          <Form.Group>
+            <Form.Control 
               id="newChannelName"
               type="text"
               ref={inputRef}
@@ -81,25 +77,28 @@ const ModalChannelEdit = ({ closeModal }) => {
                 && formik.errors.newChannelName}
               {...formik.getFieldProps('newChannelName')}
             />
+            <Form.Label className="visually-hidden" htmlFor="newChannelName">
+              {t('modals.editForm.label')}
+            </Form.Label>
             <Form.Control.Feedback type="invalid">
               {formik.errors.newChannelName}
             </Form.Control.Feedback>
-          </FloatingLabel>
-          <Button
-            className="mt-3"
-            variant="secondary"
-            onClick={handleCloseModal}
-            disabled={formState !== 'idle'}
-          >
-            {t('modals.editForm.cancelButton')}
-          </Button>
-          <Button
-            className="mt-3"
-            type="submit"
-            disabled={formState !== 'idle'}
-          >
-            {t('modals.editForm.submitButton')}
-          </Button>
+            <Button
+              className="mt-3"
+              variant="secondary"
+              onClick={handleCloseModal}
+              disabled={formState !== 'idle'}
+            >
+              {t('modals.editForm.cancelButton')}
+            </Button>
+            <Button
+              className="mt-3"
+              type="submit"
+              disabled={formState !== 'idle'}
+            >
+              {t('modals.editForm.submitButton')}
+            </Button>
+          </Form.Group>
         </Form>
       </Modal.Body>
     </Modal>
