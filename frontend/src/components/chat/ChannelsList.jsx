@@ -18,7 +18,7 @@ const Channels = () => {
   if (isLoading) return (<ChannelsPlaceHolder />);
 
   if (error) {
-    toast.warn(t('chatPage.errors.channelsReqError'));
+    toast.error(t('chatPage.errors.channelsReqError'));
     return (<ChannelsPlaceHolder />);
   }
 

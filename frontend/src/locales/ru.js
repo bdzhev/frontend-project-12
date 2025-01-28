@@ -55,10 +55,10 @@ const ru = {
           message_few: 'сообщения',
           message_many: 'сообщений',
         },
-        errors: {
-          messsagesReqError: 'Не удалось загрузить сообщения',
-          channelsReqError: 'Не удалось загрузить доступные каналы',
-        },
+      },
+      errors: {
+        messsagesReqError: 'Не удалось загрузить сообщения',
+        channelsReqError: 'Не удалось загрузить доступные каналы',
       },
       channelItem: {
         removeButton: 'Удалить',

@@ -17,7 +17,7 @@ const MessageContainer = () => {
   if (isLoading) return (<MessageContainerPlaceholder />);
 
   if (error) {
-    toast.warn(t('chatPage.errors.messagesReqError'));
+    toast.error(t('chatPage.errors.messagesReqError'));
     return (<MessageContainerPlaceholder />);
   }
 
