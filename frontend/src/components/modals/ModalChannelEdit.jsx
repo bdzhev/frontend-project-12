@@ -43,7 +43,7 @@ const ModalChannelEdit = ({ closeModal }) => {
         ),
     }),
     onSubmit: async (values) => {
-      const toastId = toast('modals.editForm.loading', { autoClose: false });
+      const toastId = toast(t('modals.editForm.loading'), { autoClose: false });
       setFormState('pending');
       try {
         await editChannel({ id: channel.id, name: values.newChannelName });
