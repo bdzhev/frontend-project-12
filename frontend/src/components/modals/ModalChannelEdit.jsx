@@ -8,7 +8,6 @@ import * as Yup from 'yup';
 import { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import filter from 'leo-profanity';
 import { activeChannelSelector, setCurChannel } from '../../../store/slices/activeChannelSlice';
 import { useGetChannelsQuery, useEditChannelMutation } from '../../../store/services/chatApi';
 
@@ -35,12 +34,7 @@ const ModalChannelEdit = ({ closeModal }) => {
         .required(t('modals.errors.required'))
         .min(3, t('modals.errors.short'))
         .max(20, t('modals.errors.long'))
-        .notOneOf([existingChannelNames], t('modals.errors.alreadyExists'))
-        .test(
-          'no-profanity',
-          t('modals.errors.profanity'),
-          (value) => !filter.check(value),
-        ),
+        .notOneOf([existingChannelNames], t('modals.errors.alreadyExists')),
     }),
     onSubmit: async (values) => {
       const toastId = toast(t('modals.editForm.loading'), { autoClose: false });
