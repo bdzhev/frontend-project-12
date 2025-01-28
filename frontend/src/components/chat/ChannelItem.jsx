@@ -1,5 +1,4 @@
 import {
-  DropdownButton,
   Dropdown,
   ButtonGroup,
   Button,
@@ -20,8 +19,8 @@ const ChannelItem = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const handleOpenModal = (channel) => (type) => {
-    dispatch(openModal({ type, channel }));
+  const handleOpenModal = (type) => () => {
+    dispatch(openModal({ type, channel: { id, name } }));
   };
 
   const setChannelActive = () => {
@@ -44,11 +43,15 @@ const ChannelItem = ({
             >
               {`# ${filter.clean(name)}`}
             </Button>
-            <DropdownButton variant={variant} onSelect={handleOpenModal({ id, name })}>
-              <span className="visually-hidden">{t('chatPage.channelItem.dropdown')}</span>
-              <Dropdown.Item eventKey="remove">{t('chatPage.channelItem.removeButton')}</Dropdown.Item>
-              <Dropdown.Item eventKey="edit">{t('chatPage.channelItem.editButton')}</Dropdown.Item>
-            </DropdownButton>
+            <Dropdown>
+              <Dropdown.Toggle variant={variant} id="channel-dropdown" className="rounded-0">
+                <span className="visually-hidden">{t('chatPage.channelItem.dropdown')}</span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={handleOpenModal('remove')}>{t('chatPage.channelItem.removeButton')}</Dropdown.Item>
+                <Dropdown.Item onClick={handleOpenModal('edit')}>{t('chatPage.channelItem.editButton')}</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </ButtonGroup>
         )
         : (
