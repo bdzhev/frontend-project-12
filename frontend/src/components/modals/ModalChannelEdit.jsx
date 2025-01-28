@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import {
-  Modal, Form, Button, FloatingLabel,
+  Modal, Form, Button,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -69,7 +69,7 @@ const ModalChannelEdit = ({ closeModal }) => {
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
-            <Form.Control 
+            <Form.Control
               id="newChannelName"
               type="text"
               ref={inputRef}

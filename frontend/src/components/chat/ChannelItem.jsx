@@ -35,7 +35,7 @@ const ChannelItem = ({
         ? (
           <ButtonGroup className="d-flex">
             <Button
-              className="w-100 text-start text-truncate"
+              className="w-100 text-start text-truncate rounded-0"
               variant={variant}
               onClick={setChannelActive}
               name={name}
@@ -56,7 +56,7 @@ const ChannelItem = ({
         )
         : (
           <Button
-            className="w-100 text-start"
+            className="w-100 text-start rounded-0 text-truncate"
             variant={variant}
             onClick={setChannelActive}
             name={name}
