@@ -86,7 +86,7 @@ const ru = {
       },
       editForm: {
         headerLabel: 'Переименовать канал',
-        label: 'Выберите новое название для канала',
+        label: 'Имя канала',
         cancelButton: 'Отмена',
         submitButton: 'Переименовать',
         success: 'Канал переименован',
