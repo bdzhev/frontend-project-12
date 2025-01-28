@@ -57,8 +57,8 @@ const ru = {
         },
       },
       errors: {
-        messsagesReqError: 'Не удалось загрузить сообщения',
-        channelsReqError: 'Не удалось загрузить доступные каналы',
+        messagesReqError: 'Не удалось загрузить сообщения',
+        channelsReqError: 'Не удалось загрузить каналы',
       },
       channelItem: {
         removeButton: 'Удалить',
