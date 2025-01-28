@@ -46,7 +46,8 @@ const ru = {
         header: 'Каналы',
       },
       messageForm: {
-        placeholder: 'Новое сообщение',
+        placeholder: 'Введите сообщение',
+        arialabel: 'Новое сообщение',
       },
       messageBox: {
         numOfMessages: {

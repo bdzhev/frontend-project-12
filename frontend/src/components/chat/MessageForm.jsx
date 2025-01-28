@@ -29,6 +29,7 @@ const MessageForm = ({ channelId, username }) => {
             {...formik.getFieldProps('body')}
             placeholder={t('chatPage.messageForm.placeholder')}
             className="rounded"
+            aria-label={t('chatPage.messageForm.arialabel')}
           />
           <Button
             type="submit"
