@@ -27,8 +27,9 @@ const SignUpForm = () => {
         navigateToMain();
       })
       .catch((err) => {
+        console.log(err.response.status)
         if (axios.isAxiosError(err)) {
-          if (err.response.status === 401) {
+          if (err.response.status === 409) {
             setFormState({
               authStatus: 'idle',
               errors: t('signupForm.errors.userExists'),
