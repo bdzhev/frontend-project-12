@@ -29,7 +29,7 @@ const Channels = () => {
 
   return (
     <>
-      <Row className="mx-4">
+      <Row className="mx-3">
         <ChannelsListHeader />
       </Row>
       <Nav className="flex-column">

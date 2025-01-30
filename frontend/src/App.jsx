@@ -23,6 +23,7 @@ const App = () => (
       draggable
       theme="light"
       transition={Slide}
+      limit={3}
     />
     <Header />
     <Router>

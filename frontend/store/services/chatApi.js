@@ -6,7 +6,6 @@ const socket = io();
 
 export const chatApi = createApi({
   reducerPath: 'chatApi',
-  tagTypes: ['Channel', 'Message'],
   baseQuery: fetchBaseQuery({
     baseUrl: '/api/v1',
     prepareHeaders: (headers, { getState }) => {
@@ -46,7 +45,6 @@ export const chatApi = createApi({
           cacheEntryRemoved,
         );
       },
-      providesTags: ['Channel'],
     }),
     addChannel: builder.mutation({
       query: (newChannelName) => ({
@@ -54,14 +52,12 @@ export const chatApi = createApi({
         method: 'POST',
         body: { name: newChannelName },
       }),
-      invalidatesTags: ['Channel'],
     }),
     removeChannel: builder.mutation({
       query: (channelId) => ({
         method: 'DELETE',
         url: `/channels/${channelId}`,
       }),
-      invalidatesTags: ['Message', 'Channel'],
     }),
     editChannel: builder.mutation({
       query: ({ id, name }) => ({
@@ -69,7 +65,6 @@ export const chatApi = createApi({
         body: { name },
         url: `/channels/${id}`,
       }),
-      invalidatesTags: ['Channel', 'Message'],
     }),
     getMessages: builder.query({
       query: () => 'messages',
@@ -89,7 +84,6 @@ export const chatApi = createApi({
           cacheEntryRemoved,
         );
       },
-      providesTags: ['Message'],
     }),
     addMessage: builder.mutation({
       query: (newMessage) => ({
@@ -97,7 +91,6 @@ export const chatApi = createApi({
         method: 'POST',
         body: newMessage,
       }),
-      invalidatesTags: ['Message'],
     }),
   }),
 });

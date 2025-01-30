@@ -4,12 +4,12 @@ import {
 } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { setCurChannel } from '../../../store/slices/activeChannelSlice';
 import { useGetChannelsQuery, useAddChannelMutation } from '../../../store/services/chatApi';
+import schemas from '../../../utils/validationSchemas';
 
 const ModalChannelAdd = ({ closeModal }) => {
   const { t } = useTranslation();
@@ -25,35 +25,34 @@ const ModalChannelAdd = ({ closeModal }) => {
     inputRef.current.focus();
   }, []);
 
-  const handleAddChannel = async (channelName) => {
+  const handleAddChannel = (channelName) => {
     const toastId = toast(t('modals.addForm.loading'), { autoClose: false });
-    try {
-      setFormState('sending');
-      const newChannel = await addChannel(channelName).unwrap();
-      dispatch(setCurChannel(newChannel));
-      toast.update(toastId, {
-        render: t('modals.addForm.success'),
-        autoClose: 2000,
-        type: 'success',
+    setFormState('sending');
+    addChannel(channelName)
+      .unwrap()
+      .then((newChannel) => {
+        dispatch(setCurChannel(newChannel));
+        toast.update(toastId, {
+          render: t('modals.addForm.success'),
+          autoClose: 2000,
+          type: 'success',
+        });
+      })
+      .catch(() => {
+        toast.update(toastId, {
+          render: t('modals.errors.network'),
+          autoClose: 2000,
+          type: 'error',
+        });
+      })
+      .finally(() => {
+        handleCloseModal();
       });
-    } catch (err) {
-      toast.update(toastId, {
-        render: t('modals.errors.network'),
-        autoClose: 2000,
-        type: 'warn',
-      });
-    }
   };
 
   const formik = useFormik({
     initialValues: { channelName: '' },
-    validationSchema: Yup.object({
-      channelName: Yup.string()
-        .required(t('modals.errors.required'))
-        .min(3, t('modals.errors.short'))
-        .max(20, t('modals.errors.long'))
-        .notOneOf([existingChannelNames], t('modals.errors.alreadyExists')),
-    }),
+    validationSchema: schemas.modal.editAddModals(t, existingChannelNames),
     onSubmit: async ({ channelName }) => {
       handleAddChannel(channelName);
       handleCloseModal();
@@ -79,24 +78,25 @@ const ModalChannelAdd = ({ closeModal }) => {
               {...formik.getFieldProps('channelName')}
               isInvalid={formik.touched.channelName && formik.errors.channelName}
             />
-            <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback tooltip type="invalid">
               {formik.errors.channelName}
             </Form.Control.Feedback>
           </FloatingLabel>
-          <Button
-            className="mt-3"
-            variant="secondary"
-            onClick={handleCloseModal}
-          >
-            {t('modals.addForm.cancelButton')}
-          </Button>
-          <Button
-            className="mt-3"
-            type="submit"
-            disabled={formState.state !== 'idle'}
-          >
-            {t('modals.addForm.submitButton')}
-          </Button>
+          <div className="d-flex justify-content-end">
+            <Button
+              className="me-2"
+              variant="secondary"
+              onClick={handleCloseModal}
+            >
+              {t('modals.addForm.cancelButton')}
+            </Button>
+            <Button
+              type="submit"
+              disabled={formState.state !== 'idle'}
+            >
+              {t('modals.addForm.submitButton')}
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>

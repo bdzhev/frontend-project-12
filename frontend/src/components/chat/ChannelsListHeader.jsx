@@ -11,9 +11,9 @@ const ChannelsListHeader = () => {
     dispatch(openModal({ type: 'add', channel: null }));
   };
   return (
-    <div className="d-flex w-100 justify-content-between p-4 align-items-center">
+    <div className="d-flex w-100 py-4 px-0 align-items-center">
       <b>{t('chatPage.channelsList.header')}</b>
-      <Button size="sm" variant="outline-primary" className="button-square" onClick={handleAddModal}>+</Button>
+      <Button size="sm" variant="outline-primary" className="ms-auto" onClick={handleAddModal}>+</Button>
     </div>
   );
 };

@@ -4,12 +4,12 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { activeChannelSelector, setCurChannel } from '../../../store/slices/activeChannelSlice';
 import { useGetChannelsQuery, useEditChannelMutation } from '../../../store/services/chatApi';
+import schemas from '../../../utils/validationSchemas';
 
 const ModalChannelEdit = ({ closeModal }) => {
   const [formState, setFormState] = useState('idle');
@@ -24,80 +24,79 @@ const ModalChannelEdit = ({ closeModal }) => {
   const existingChannelNames = existingChannels.map((c) => c.name);
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current.select();
   }, [dispatch]);
 
-  const formik = useFormik({
-    initialValues: { newChannelName: channel.name },
-    validationSchema: Yup.object({
-      newChannelName: Yup.string()
-        .required(t('modals.errors.required'))
-        .min(3, t('modals.errors.short'))
-        .max(20, t('modals.errors.long'))
-        .notOneOf([existingChannelNames], t('modals.errors.alreadyExists')),
-    }),
-    onSubmit: async (values) => {
-      const toastId = toast(t('modals.editForm.loading'), { autoClose: false });
-      setFormState('pending');
-      try {
-        await editChannel({ id: channel.id, name: values.newChannelName });
+  const handleAddChannel = (channelName) => {
+    const toastId = toast(t('modals.editForm.loading'), { autoClose: false });
+    setFormState('pending');
+    editChannel({ id: channel.id, name: channelName })
+      .unwrap()
+      .then(() => {
         if (activeChannel.id === channel.id) {
-          dispatch(setCurChannel({ ...channel, name: values.newChannelName }));
+          dispatch(setCurChannel({ ...channel, name: channelName }));
         }
         toast.update(toastId, {
           render: t('modals.editForm.success'),
           type: 'success',
           autoClose: 2000,
         });
-        handleCloseModal();
-      } catch {
+      })
+      .catch(() => {
         toast.update(toastId, {
           render: t('modals.errors.network'),
-          type: 'warn',
+          type: 'error',
           autoClose: 2000,
         });
-      }
-      setFormState('idle');
-    },
+      })
+      .finally(() => {
+        handleCloseModal();
+      });
+  };
+
+  const formik = useFormik({
+    initialValues: { channelName: channel.name },
+    validationSchema: schemas.modal.editAddModals(t, existingChannelNames),
+    onSubmit: ({ channelName }) => handleAddChannel(channelName),
   });
 
   return (
     <Modal show onHide={handleCloseModal} centered>
       <Modal.Header closeButton>
-        Переименовать канал
+        {t('modals.editForm.headerLabel')}
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
-            <Form.Control
-              id="newChannelName"
-              type="text"
-              ref={inputRef}
-              isInvalid={formik.touched.newChannelName
-                && formik.errors.newChannelName}
-              {...formik.getFieldProps('newChannelName')}
-            />
-            <Form.Label className="visually-hidden" htmlFor="newChannelName">
+            <Form.Label className="visually-hidden" htmlFor="channelName">
               {t('modals.editForm.label')}
             </Form.Label>
+            <Form.Control
+              id="channelName"
+              type="text"
+              ref={inputRef}
+              isInvalid={formik.touched.channelName
+                && formik.errors.channelName}
+              {...formik.getFieldProps('channelName')}
+            />
             <Form.Control.Feedback type="invalid">
-              {formik.errors.newChannelName}
+              {formik.errors.channelName}
             </Form.Control.Feedback>
-            <Button
-              className="mt-3"
-              variant="secondary"
-              onClick={handleCloseModal}
-              disabled={formState !== 'idle'}
-            >
-              {t('modals.editForm.cancelButton')}
-            </Button>
-            <Button
-              className="mt-3"
-              type="submit"
-              disabled={formState !== 'idle'}
-            >
-              {t('modals.editForm.submitButton')}
-            </Button>
+            <div className="d-flex justify-content-end mt-4">
+              <Button
+                className="me-2"
+                variant="secondary"
+                onClick={handleCloseModal}
+              >
+                {t('modals.editForm.cancelButton')}
+              </Button>
+              <Button
+                type="submit"
+                disabled={formState !== 'idle'}
+              >
+                {t('modals.editForm.submitButton')}
+              </Button>
+            </div>
           </Form.Group>
         </Form>
       </Modal.Body>

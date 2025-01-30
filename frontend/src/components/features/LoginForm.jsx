@@ -2,50 +2,45 @@
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import { Form, Button } from 'react-bootstrap';
-import * as Yup from 'yup';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { setCredentials } from '../../../store/slices/authSlice';
 import { apiPaths } from '../../../utils/routes';
+import schemas from '../../../utils/validationSchemas';
 
 const LoginForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const authUser = async ({ username, password }) => {
-    const response = await axios.post(apiPaths.login(), { username, password });
-    const { token } = response.data;
-    localStorage.setItem('authData', JSON.stringify({ user: username, token }));
-    dispatch(setCredentials({ user: username, token }));
-  };
-
   const navigate = useNavigate();
   const location = useLocation();
   const fromPage = location.state?.from?.pathname || '/';
   const navigateToPrevPage = () => navigate(fromPage, { replace: true });
-
   const [formState, setFormState] = useState({ authStatus: 'idle', errors: null });
+
+  const authUser = ({ username, password }) => {
+    setFormState({ ...formState, authStatus: 'sending' });
+    axios.post(apiPaths.login(), { username, password })
+      .then((res) => {
+        const { token } = res.data;
+        localStorage.setItem('authData', JSON.stringify({ user: username, token }));
+        dispatch(setCredentials({ user: username, token }));
+        navigateToPrevPage();
+      })
+      .catch((err) => {
+        const errMessage = axios.isAxiosError(err)
+          ? t('loginForm.errors.authError')
+          : t('loginForm.errors.unknownError');
+
+        setFormState({ authStatus: 'idle', errors: errMessage });
+      });
+  };
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
-    validationSchema: Yup.object({
-      username: Yup.string()
-        .required(t('loginForm.errors.required'))
-        .min(3, t('loginForm.errors.username.short'))
-        .max(20, t('loginForm.errors.username.long')),
-      password: Yup.string()
-        .required(t('loginForm.errors.required')),
-    }),
-    onSubmit: async (values, { resetForm }) => {
-      try {
-        await authUser(values);
-        navigateToPrevPage();
-      } catch (err) {
-        setFormState({ authStatus: 'failed', errors: t('loginForm.errors.authError') });
-        resetForm();
-      }
-    },
+    validationSchema: schemas.loginForm(t),
+    onSubmit: (values) => authUser(values),
   });
 
   return (
@@ -58,6 +53,7 @@ const LoginForm = () => {
           isInvalid={formState.authStatus === 'failed'}
           {...formik.getFieldProps('username')}
         />
+        <Form.Control.Feedback tooltip type="invalid">{formik.errors.username}</Form.Control.Feedback>
       </Form.Group>
       <Form.Group>
         <Form.Label htmlFor="password">{t('loginForm.password')}</Form.Label>
@@ -69,7 +65,13 @@ const LoginForm = () => {
         />
         <Form.Control.Feedback type="invalid">{formState.errors}</Form.Control.Feedback>
       </Form.Group>
-      <Button className="mt-3" type="submit">{t('loginForm.login')}</Button>
+      <Button
+        className="mt-3"
+        type="submit"
+        disabled={!formState.authStatus === 'idle'}
+      >
+        {t('loginForm.login')}
+      </Button>
     </Form>
   );
 };
