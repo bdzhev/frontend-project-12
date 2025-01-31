@@ -50,7 +50,7 @@ const LoginForm = () => {
         <Form.Control
           id="username"
           type="text"
-          isInvalid={formState.authStatus === 'failed'}
+          isInvalid={formState.errors}
           {...formik.getFieldProps('username')}
         />
         <Form.Control.Feedback tooltip type="invalid">{formik.errors.username}</Form.Control.Feedback>
@@ -60,7 +60,7 @@ const LoginForm = () => {
         <Form.Control
           id="password"
           type="password"
-          isInvalid={formState.authStatus === 'failed'}
+          isInvalid={formState.errors}
           {...formik.getFieldProps('password')}
         />
         <Form.Control.Feedback type="invalid">{formState.errors}</Form.Control.Feedback>
