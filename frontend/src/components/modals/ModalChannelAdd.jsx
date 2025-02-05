@@ -54,9 +54,11 @@ const ModalChannelAdd = ({ closeModal }) => {
     initialValues: { channelName: '' },
     validationSchema: schemas.modal.editAddModals(t, existingChannelNames),
     onSubmit: async ({ channelName }) => {
-      handleAddChannel(channelName);
+      handleAddChannel(channelName.trim());
       handleCloseModal();
     },
+    validateOnBlur: false,
+    validateOnChange: false,
   });
 
   return (

@@ -57,7 +57,9 @@ const ModalChannelEdit = ({ closeModal }) => {
   const formik = useFormik({
     initialValues: { channelName: channel.name },
     validationSchema: schemas.modal.editAddModals(t, existingChannelNames),
-    onSubmit: ({ channelName }) => handleAddChannel(channelName),
+    onSubmit: ({ channelName }) => handleAddChannel(channelName.trim()),
+    validateOnBlur: false,
+    validateOnChange: false,
   });
 
   return (
